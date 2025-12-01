@@ -1,4 +1,4 @@
-import config from "./serverURL";
+import config from "./apiConfig";
 import { apiCall, uploadFile } from "./commonAPI";
 
 // ==================== PRODUCT API FUNCTIONS ====================

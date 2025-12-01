@@ -1,4 +1,4 @@
-import config, { apiBaseUrl } from "./serverURL";
+import { apiBaseUrl } from "./serverURL";
 
 // Helper function to get auth token from localStorage
 const getAuthToken = () => {

@@ -17,13 +17,11 @@ if (
   _env = process.env;
 }
 
-const NODE_ENV = _env.MODE || _env.NODE_ENV || "development";
 const OVERRIDE_API = _env.VITE_API_URL || _env.REACT_APP_API_URL || "";
 
+// Always use Render backend URL
 export const serverUrl =
-  NODE_ENV === "production"
-    ? OVERRIDE_API || "https://rynott-ecommerce-server.onrender.com"
-    : OVERRIDE_API || "http://localhost:5000";
+  OVERRIDE_API || "https://rynott-ecommerce-server.onrender.com";
 
 export const apiBaseUrl = `${serverUrl}/api`;
 
