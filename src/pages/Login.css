@@ -1,0 +1,132 @@
+.login-page {
+    padding: var(--space-20) 0;
+    min-height: 100vh;
+    background: var(--bg-secondary);
+}
+
+.login-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+    padding: var(--space-8);
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+.login-header h1 {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-4);
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.login-header p {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+.login-content {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: var(--space-8);
+    text-align: center;
+}
+
+.login-icon {
+    font-size: 4rem;
+    color: var(--gray-400);
+    margin-bottom: var(--space-6);
+}
+
+.login-content h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--text-primary);
+    margin-bottom: var(--space-4);
+}
+
+.login-content p {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+    line-height: 1.6;
+}
+
+.login-benefits {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+.benefit-card {
+    padding: var(--space-6);
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+}
+
+.benefit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.benefit-card .benefit-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: var(--space-4);
+}
+
+.benefit-card h3 {
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.benefit-card p {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-page {
+        padding: var(--space-16) 0;
+    }
+    
+    .login-page .container {
+        padding: 0 var(--space-4);
+    }
+    
+    .login-header {
+        padding: var(--space-6);
+        margin-bottom: var(--space-8);
+    }
+    
+    .login-header h1 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .login-content {
+        padding: var(--space-6);
+    }
+    
+    .login-benefits {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+}
