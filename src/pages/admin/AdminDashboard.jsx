@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import { isAdmin, isAuthenticated, formatPrice } from '../../services/commonAPI';
 import { getDashboardStats, getProducts } from '../../services/allAPI';
+import { autoLoginAdmin, shouldAutoLogin } from '../../services/devLogin';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -11,12 +12,44 @@ const AdminDashboard = () => {
     const [zeroStockProducts, setZeroStockProducts] = useState([]);
 
     useEffect(() => {
-        fetchDashboardStats();
+        const initializeAdmin = async () => {
+            // Auto-login admin in development if not authenticated
+            if (shouldAutoLogin()) {
+                console.log('🔐 Auto-login: Attempting to log in admin user...');
+                const loginResult = await autoLoginAdmin();
+                if (loginResult.success) {
+                    console.log('✅ Auto-login successful, fetching dashboard data...');
+                } else {
+                    console.error('❌ Auto-login failed:', loginResult.error);
+                }
+            }
+
+            // Fetch dashboard stats
+            fetchDashboardStats();
+        };
+
+        initializeAdmin();
     }, []);
 
     const fetchDashboardStats = async () => {
         try {
             setLoading(true);
+
+            console.log('📊 Fetching dashboard stats...');
+
+            // Check if user is authenticated
+            if (!isAuthenticated()) {
+                console.log('⚠️ User not authenticated, showing fallback data');
+                setStats({
+                    products: { totalProducts: 0 },
+                    users: { count: 0 },
+                    orders: { count: 0 }
+                });
+                setZeroStockProducts([]);
+                setError('Please log in to view dashboard data.');
+                return;
+            }
+
             const [statsResponse, productsResponse] = await Promise.allSettled([
                 getDashboardStats(),
                 getProducts()
@@ -24,8 +57,10 @@ const AdminDashboard = () => {
 
             // Handle dashboard stats
             if (statsResponse.status === 'fulfilled' && statsResponse.value) {
+                console.log('✅ Dashboard stats received:', statsResponse.value);
                 setStats(statsResponse.value);
             } else {
+                console.warn('⚠️ Dashboard stats failed:', statsResponse.reason || statsResponse.value);
                 setStats({
                     products: { totalProducts: 0 },
                     users: { count: 0 },
@@ -37,12 +72,14 @@ const AdminDashboard = () => {
             if (productsResponse.status === 'fulfilled' && productsResponse.value?.success) {
                 const products = productsResponse.value.data || [];
                 const zeroStock = products.filter(product => product.stockQuantity === 0);
+                console.log('✅ Products received:', products.length, 'Zero stock items:', zeroStock.length);
                 setZeroStockProducts(zeroStock);
             } else {
+                console.warn('⚠️ Products fetch failed:', productsResponse.reason || productsResponse.value);
                 setZeroStockProducts([]);
             }
         } catch (error) {
-            console.error('Failed to fetch dashboard stats:', error);
+            console.error('❌ Failed to fetch dashboard stats:', error);
             // Set fallback stats to ensure dashboard still displays
             setStats({
                 products: { totalProducts: 0 },

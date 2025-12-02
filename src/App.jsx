@@ -13,6 +13,7 @@ import CategoryManagement from './pages/admin/CategoryManagement';
 import ContactManagement from './pages/admin/ContactManagement';
 import UserManagement from './pages/admin/UserManagement';
 import CartManagement from './pages/admin/CartManagement';
+import LoginHelper from './pages/admin/LoginHelper';
 
 // Import components
 import Navbar from './components/Navbar';
@@ -123,6 +124,11 @@ const AppContent = () => {
                 <Register />
               </PublicRoute>
             }
+          />
+          {/* Development Admin Login Helper */}
+          <Route
+            path="/admin-login"
+            element={<LoginHelper />}
           />
 
           {/* Protected User Routes */}

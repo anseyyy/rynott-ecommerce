@@ -1,0 +1,128 @@
+.login-helper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.login-helper-container {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.login-helper-container h1 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.login-helper-container > p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.login-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.login-info h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.login-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.login-info li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.login-info li:last-child {
+    border-bottom: none;
+}
+
+.login-info strong {
+    color: #495057;
+    min-width: 80px;
+    display: inline-block;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.login-result {
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-result.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.login-result.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.manual-login {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.manual-login h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.manual-login .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .login-helper-container {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .login-helper-container h1 {
+        font-size: 1.6rem;
+    }
+    
+    .btn-large {
+        width: 100%;
+        justify-content: center;
+    }
+}
