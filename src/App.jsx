@@ -18,6 +18,7 @@ import LoginHelper from './pages/admin/LoginHelper';
 // Import components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import DebugPanel from './components/DebugPanel';
 
 // Import pages
 import Home from './pages/Home';
@@ -92,6 +93,9 @@ const AppContent = () => {
     <div className="App">
       {/* Navigation */}
       <Navbar onLogout={handleLogout} />
+
+      {/* Debug Panel (Development Only) */}
+      {import.meta.env.DEV && <DebugPanel />}
 
       {/* Main Content */}
       <main className="main-content">
