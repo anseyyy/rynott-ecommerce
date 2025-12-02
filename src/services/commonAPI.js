@@ -1,4 +1,5 @@
 import { apiBaseUrl } from "./serverURL";
+import axios from "axios";
 
 // Helper function to get auth token from localStorage
 const getAuthToken = () => {
@@ -44,55 +45,60 @@ const isAdmin = () => {
   return user && user.role === "admin";
 };
 
-// Generic fetch wrapper with error handling
+// Generic API wrapper using axios
+
+// Resolve endpoint: accept full URL or endpoint path starting with '/'
+const resolveUrl = (endpoint) => {
+  if (!endpoint) return apiBaseUrl;
+  if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
+    return endpoint;
+  }
+  // Ensure leading slash
+  const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  return `${apiBaseUrl}${path}`;
+};
+
 const apiCall = async (endpoint, options = {}) => {
   const token = getAuthToken();
 
   const headers = {
     "Content-Type": "application/json",
-    ...options.headers,
+    ...(options.headers || {}),
   };
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const method = (options.method || "GET").toUpperCase();
 
   const config = {
-    method: "GET",
+    method,
+    url: resolveUrl(endpoint),
     headers,
-    ...options,
+    timeout: 30000,
   };
 
+  if (options.body && method !== "GET") {
+    config.data = options.body;
+  }
+
   try {
-    const response = await fetch(`${apiBaseUrl}${endpoint}`, config);
-    const data = await response.json();
-
-    if (!response.ok) {
-      // Handle token expiration
-      if (response.status === 401) {
-        logout();
-        window.location.href = "/login";
-        return {
-          success: false,
-          message: "Session expired. Please log in again.",
-        };
-      }
-
-      // Return error response in consistent format
-      return {
-        success: false,
-        message: data.message || `HTTP error! status: ${response.status}`,
-        data: null,
-      };
-    }
-
-    return data;
+    const res = await axios(config);
+    return res.data;
   } catch (error) {
-    console.error("API call failed:", error);
-    // Return error in consistent format instead of throwing
+    console.error("API Error:", error);
+    const status = error.response?.status || 500;
+    // Handle unauthorized centrally
+    if (status === 401) {
+      try {
+        logout();
+      } catch (e) {
+        // ignore
+      }
+    }
     return {
       success: false,
-      message: error.message || "Network error. Please try again.",
+      message: error.response?.data?.message || error.message,
+      status,
       data: null,
     };
   }
